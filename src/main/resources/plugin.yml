@@ -1,0 +1,4 @@
+name: PigmanSurvie
+version: '${project.version}'
+main: fr.skytryx.pigmansurvie.PigmanSurvie
+api-version: 1.20
