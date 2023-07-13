@@ -1,0 +1,14 @@
+package fr.skytryx.pigmansurvie.staff;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+
+import java.util.Objects;
+
+public class InvseeCheck implements Listener {
+    @EventHandler
+    public void InvseeUnDupe(InventoryClickEvent event){
+        if(event.getView().getTitle().equals("§7Invsee")) event.setCancelled(true);
+    }
+}
