@@ -21,9 +21,10 @@ public class CommandInvsee implements CommandExecutor {
         Player player = (Player) commandSender;
         PlayerInventory playerinv = Objects.requireNonNull(Bukkit.getPlayer(strings[0])).getInventory();
         Inventory inv = Bukkit.createInventory(null, 54, "§7Invsee");
-        for(int i = 0; i < 36; i++){
+        for(int i = 0; i < 36; i++) {
             inv.setItem(i, playerinv.getItem(i));
         }
+
         for(int i = 36; i < 45; i++) inv.setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
         inv.setItem(45, playerinv.getHelmet());
         inv.setItem(46, playerinv.getChestplate());
