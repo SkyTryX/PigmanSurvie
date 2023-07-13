@@ -1,5 +1,6 @@
 package fr.skytryx.pigmansurvie;
 
+import fr.skytryx.pigmansurvie.addons.DeathChest;
 import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
 import fr.skytryx.pigmansurvie.commands.staff.CommandStafftp;
 import fr.skytryx.pigmansurvie.staff.InvseeCheck;
@@ -20,6 +21,7 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new XrayAlerts(), this);
         getServer().getPluginManager().registerEvents(new VillagerAlerts(), this);
         getServer().getPluginManager().registerEvents(new InvseeCheck(), this);
+        getServer().getPluginManager().registerEvents(new DeathChest(), this);
     }
 
     @Override
