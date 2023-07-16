@@ -7,8 +7,10 @@ import org.bukkit.event.vehicle.VehicleExitEvent;
 
 public class Boat_antilag implements Listener {
     @EventHandler
-    public void bbreak(VehicleExitEvent shifted){
+    public void bbreak(VehicleExitEvent event){
         if (shifted.getVehicle() instanceof Boat){
+            shifted.setHealth(0);
+            shifted.getPlayer().sendmessage("Ton bateau a été cassé");
 
         }
     }
