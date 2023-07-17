@@ -1,6 +1,6 @@
 package fr.skytryx.pigmansurvie;
 
-import fr.skytryx.pigmansurvie.addons.Boat_antilag;
+import fr.skytryx.pigmansurvie.addons.BoatKill;
 import fr.skytryx.pigmansurvie.addons.DeathChest;
 import fr.skytryx.pigmansurvie.addons.Duraping;
 import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
@@ -25,7 +25,7 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InvseeCheck(), this);
         getServer().getPluginManager().registerEvents(new DeathChest(), this);
         getServer().getPluginManager().registerEvents(new Duraping(), this);
-        getServer().getPluginManager().registerEvents(new Boat_antilag(), this);
+        getServer().getPluginManager().registerEvents(new BoatKill(), this);
     }
 
     @Override

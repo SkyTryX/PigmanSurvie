@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,8 +23,8 @@ public class DeathChest implements Listener {
     public void DeathChestSpawn(PlayerDeathEvent event){
         Location deathloc = event.getPlayer().getLocation();
         event.getPlayer().getWorld().getBlockAt(deathloc).setType(Material.CHEST);
-        final File file = new File(Bukkit.getServer().getPluginManager()
-                .getPlugin("PigmanSurvie").getDataFolder(), "deathchest.yml");
+        final File file = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager()
+                .getPlugin("PigmanSurvie")).getDataFolder(), "deathchest.yml");
         final YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         List<ItemStack> player_item = new ArrayList<>();
@@ -37,7 +36,7 @@ public class DeathChest implements Listener {
         player_item.add(event.getPlayer().getInventory().getLeggings());
         player_item.add(event.getPlayer().getInventory().getBoots());
         player_item.add(event.getPlayer().getInventory().getItemInOffHand());
-        config.set(deathloc.toString(), player_item.toString());
+        config.set(String.valueOf(deathloc), player_item.toString());
         try {
             config.save(file);
         } catch (IOException e) {
@@ -47,18 +46,19 @@ public class DeathChest implements Listener {
 
     @EventHandler
     public void OnDeathChestOpen(PlayerInteractEvent event){
-        if(Objects.requireNonNull(event.getClickedBlock()).getType() != Material.CHEST) return;
-        final File file = new File(Bukkit.getServer().getPluginManager()
-                .getPlugin("PigmanSurvie").getDataFolder(), "deathchest.yml");
-        final YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        if(config.contains(event.getClickedBlock().getLocation().toString())){
-            String list_string= (String) config.get(event.getClickedBlock().getLocation().toString());
-            list_string = list_string.replace("[","");
-            list_string= list_string.replace("]","");
-            List<String> player_inv = new ArrayList<String>(Arrays.asList(list_string.split(",")));
-            for(int i = 0; i < 36; i++){
-                event.getPlayer().getInventory().setItem(i, (ItemStack) player_inv.get(i));
-            }
-        }
+        //if(Objects.requireNonNull(event.getClickedBlock()).getType() != Material.CHEST) return;
+        //final File file = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager()
+        //        .getPlugin("PigmanSurvie")).getDataFolder(), "deathchest.yml");
+        //final YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+        //if(config.contains(event.getClickedBlock().getLocation().toString())){
+            //String list_string= (String) config.get(event.getClickedBlock().getLocation().toString());
+            //assert list_string != null;
+            //list_string = list_string.replace("[","");
+            //list_string= list_string.replace("]","");
+            //List<String> player_inv = new ArrayList<>(Arrays.asList(list_string.split(",")));
+            //for(int i = 0; i < 36; i++){
+                //event.getPlayer().getInventory().setItem(i, (ItemStack) player_inv.get(i));
+            //}
+        //}
     }
 }
