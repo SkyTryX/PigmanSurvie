@@ -1,4 +1,4 @@
-package fr.skytryx.pigmansurvie.Discord;
+package fr.skytryx.pigmansurvie.addons;
 
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;

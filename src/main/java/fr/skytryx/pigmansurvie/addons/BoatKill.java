@@ -16,7 +16,7 @@ public class BoatKill implements Listener {
                 event.getVehicle().remove();
                 event.getVehicle().getWorld().dropItem(event.getVehicle().getLocation(), new ItemStack(Material.OAK_BOAT));
                 if(event.getExited().getType() == EntityType.PLAYER){
-                    event.getExited().sendMessage("Ton bateau a été cassé");
+                    event.getExited().sendMessage("§c[BoatKill] §bTon bateau a été §6cassé");
                 }
             }
         }
