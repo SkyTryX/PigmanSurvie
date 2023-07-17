@@ -1,4 +1,4 @@
-package fr.skytryx.pigmansurvie.addons;
+package fr.skytryx.pigmansurvie.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class Mineworld implements CommandExecutor {
+public class CommandMine implements CommandExecutor {
 
     @Override
     //Verification de l'auteur de la commande

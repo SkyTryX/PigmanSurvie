@@ -13,3 +13,4 @@ commands:
     usage: "§3Usage: /invsee <player>"
   mine:
     description: teleports you to the mine world
+    usage: "§3Usage: /mine"

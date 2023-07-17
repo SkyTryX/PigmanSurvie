@@ -3,7 +3,7 @@ package fr.skytryx.pigmansurvie;
 import fr.skytryx.pigmansurvie.addons.BoatKill;
 import fr.skytryx.pigmansurvie.addons.DeathChest;
 import fr.skytryx.pigmansurvie.addons.Duraping;
-import fr.skytryx.pigmansurvie.addons.Mineworld;
+import fr.skytryx.pigmansurvie.commands.CommandMine;
 import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
 import fr.skytryx.pigmansurvie.commands.staff.CommandStafftp;
 import fr.skytryx.pigmansurvie.staff.InvseeCheck;
@@ -22,7 +22,7 @@ public final class PigmanSurvie extends JavaPlugin {
         System.out.println("[PigmanSurvie] Plugin enabled!");
         Objects.requireNonNull(getCommand("stafftp")).setExecutor(new CommandStafftp());
         Objects.requireNonNull(getCommand("invsee")).setExecutor(new CommandInvsee());
-        Objects.requireNonNull(getCommand("mine")).setExecutor(new Mineworld());
+        Objects.requireNonNull(getCommand("mine")).setExecutor(new CommandMine());
 
         //Parametres du monde de minage
         if(Bukkit.getWorld("mineworld") == null){
