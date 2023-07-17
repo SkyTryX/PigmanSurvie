@@ -18,12 +18,12 @@ public class CommandMine implements CommandExecutor {
         Player player = (Player) commandSender;
         if (player.getWorld() == Bukkit.getWorld("mineworld")) {
             player.teleport(Objects.requireNonNull(Bukkit.getWorld("world")).getSpawnLocation());
-            player.sendMessage("Te voila de retour chez toi !!!");
+            player.sendMessage("§c[MineWorld] §bTu as été téléporté dans l'§6Overworld");
 
         }
         else{
             player.teleport(Objects.requireNonNull(Bukkit.getWorld("mineworld")).getSpawnLocation());
-            player.sendMessage("Te voila en minage !!!");
+            player.sendMessage("§c[MineWorld] §bTu as été téléporté dans le monde §6Minage");
         }
         return true;
     }
