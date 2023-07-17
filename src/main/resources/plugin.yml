@@ -11,3 +11,5 @@ commands:
     description: Command to see the inventory of a specific player
     permission: survie.staff.invsee
     usage: "§3Usage: /invsee <player>"
+  mine:
+    description: teleports you to the mine world
