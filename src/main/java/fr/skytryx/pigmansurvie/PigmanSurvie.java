@@ -9,6 +9,7 @@ import fr.skytryx.pigmansurvie.commands.staff.CommandStafftp;
 import fr.skytryx.pigmansurvie.staff.InvseeCheck;
 import fr.skytryx.pigmansurvie.staff.XrayAlerts;
 import fr.skytryx.pigmansurvie.staff.VillagerAlerts;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -20,6 +21,7 @@ public final class PigmanSurvie extends JavaPlugin {
         System.out.println("[PigmanSurvie] Plugin enabled!");
         Objects.requireNonNull(getCommand("stafftp")).setExecutor(new CommandStafftp());
         Objects.requireNonNull(getCommand("invsee")).setExecutor(new CommandInvsee());
+        WorldCreator wc = new WorldCreator("mineworld");
 
         getServer().getPluginManager().registerEvents(new XrayAlerts(), this);
         getServer().getPluginManager().registerEvents(new VillagerAlerts(), this);
