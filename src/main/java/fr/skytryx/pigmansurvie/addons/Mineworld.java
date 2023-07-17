@@ -14,11 +14,8 @@ public class Mineworld implements CommandExecutor {
     @Override
     //Verification de l'auteur de la commande
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if(!(commandSender instanceof Player) || strings.length == 0) {
-            return false;
-        }
-        Player player = (Player) commandSender;
-        player.teleport(Objects.requireNonNull(Bukkit.getWorld("mineworld")).getSpawnLocation());
+        if(!(commandSender instanceof Player)) return false;
+        ((Player)commandSender).teleport(Objects.requireNonNull(Bukkit.getWorld("mineworld")).getSpawnLocation());
         return true;
     }
 }
