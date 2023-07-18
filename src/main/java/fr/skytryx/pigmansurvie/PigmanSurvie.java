@@ -3,6 +3,7 @@ package fr.skytryx.pigmansurvie;
 import fr.skytryx.pigmansurvie.addons.BoatKill;
 import fr.skytryx.pigmansurvie.addons.DeathChest;
 import fr.skytryx.pigmansurvie.addons.Duraping;
+import fr.skytryx.pigmansurvie.addons.Phantomsize;
 import fr.skytryx.pigmansurvie.commands.CommandMine;
 import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
 import fr.skytryx.pigmansurvie.commands.staff.CommandStafftp;
@@ -35,6 +36,7 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DeathChest(), this);
         getServer().getPluginManager().registerEvents(new Duraping(), this);
         getServer().getPluginManager().registerEvents(new BoatKill(), this);
+        getServer().getPluginManager().registerEvents(new Phantomsize(), this);
     }
 
     @Override
