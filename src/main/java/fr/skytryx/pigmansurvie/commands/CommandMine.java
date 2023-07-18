@@ -16,6 +16,19 @@ public class CommandMine implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
+        if (strings.length == 1 && strings[0].equals("reload")){
+            if (player.isOp()) {
+                player.sendMessage("ok mon gars");
+                Bukkit.getOnlinePlayers().forEach(p -> {
+                    p.sendMessage("Le serveur va se reinitialiser");
+                    p.kick();
+                });
+            }
+            else{
+                player.sendMessage("Vous n'avez pas la permission pour faire ca.");
+            }
+        };
+
         if (player.getWorld() == Bukkit.getWorld("mineworld")) {
             player.teleport(Objects.requireNonNull(Bukkit.getWorld("world")).getSpawnLocation());
             player.sendMessage("§c[MineWorld] §bTu as été téléporté dans l'§6Overworld");
