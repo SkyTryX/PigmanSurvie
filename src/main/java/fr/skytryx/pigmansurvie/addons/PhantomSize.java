@@ -13,7 +13,7 @@ public class PhantomSize implements Listener {
         if (event.getEntityType() == EntityType.PHANTOM) {
             Phantom phantom = (Phantom) event.getEntity();
             // Modifier la taille du Phantom
-            phantom.setSize(64);
+            phantom.setSize(8);
         }
     }
 }
