@@ -21,16 +21,18 @@ public class CommandMine implements CommandExecutor {
         if(!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
         if (strings.length == 1 && strings[0].equals("reload")){
-            if (player.isOp()) {
-                player.sendMessage("ok mon gars");
+            if (player.isOp()){
                 Bukkit.getOnlinePlayers().forEach(p -> {
-                    p.sendMessage("Le serveur va se reinitialiser");
-                    p.kickPlayer("Le server minage se reinitialise");
+                    p.sendMessage("§c[MineWorld] §bLe monde minage va être reload");
+                    p.kickPlayer("Le Serveur Minage se reinitialise. \n" +
+                            "Nous Devons nous kick pour effectuer le reset!\n" +
+                            "Vous pourrez vous reconnectez dans quelques secondes!");
+
 
                 });
             }
             else{
-                player.sendMessage("Vous n'avez pas la permission pour faire ca.");
+                player.sendMessage("§c|Mineworld] §bVous n'avez pas la permission pour faire ca.");
             }
             Bukkit.unloadWorld("mineworld", false);
             try { FileUtils.deleteDirectory(new File("mineworld"));} catch (IOException e) {System.out.println("ca existe pas");}

@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
+import java.util.Random;
+
 public class PhantomSize implements Listener {
 
     @EventHandler
@@ -13,7 +15,7 @@ public class PhantomSize implements Listener {
         if (event.getEntityType() == EntityType.PHANTOM) {
             Phantom phantom = (Phantom) event.getEntity();
             // Modifier la taille du Phantom
-            phantom.setSize(8);
+            phantom.setSize(new Random().nextInt(8));
         }
     }
 }
