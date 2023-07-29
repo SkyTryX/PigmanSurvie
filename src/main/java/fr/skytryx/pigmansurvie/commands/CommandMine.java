@@ -1,7 +1,6 @@
 package fr.skytryx.pigmansurvie.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,7 +35,7 @@ public class CommandMine implements CommandExecutor {
             Bukkit.unloadWorld("mineworld", false);
             try { FileUtils.deleteDirectory(new File("mineworld"));} catch (IOException e) {System.out.println("ca existe pas");}
             new WorldCreator("mineworld").createWorld();
-        };
+        }
 
         if (player.getWorld() == Bukkit.getWorld("mineworld")) {
             player.teleport(Objects.requireNonNull(Bukkit.getWorld("world")).getSpawnLocation());
