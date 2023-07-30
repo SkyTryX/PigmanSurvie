@@ -14,3 +14,6 @@ commands:
   mine:
     description: teleports you to the mine world
     usage: "§3Usage: /mine"
+  xpbottle:
+    description: Command to give you xp bottles you can consume
+    usage: "§3Usage: /xpbottle"
