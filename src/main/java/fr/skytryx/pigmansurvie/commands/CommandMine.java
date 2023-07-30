@@ -25,7 +25,7 @@ public class CommandMine implements CommandExecutor {
                 Bukkit.getOnlinePlayers().forEach(p -> {
                     p.sendMessage("§c[MineWorld] §bLe monde minage va être reload");
                     p.kickPlayer("Le Serveur Minage se reinitialise. \n" +
-                            "Nous Devons nous kick pour effectuer le reset!\n" +
+                            "Nous devons vous kick pour effectuer le reset!\n" +
                             "Vous pourrez vous reconnectez dans quelques secondes!");
 
 
