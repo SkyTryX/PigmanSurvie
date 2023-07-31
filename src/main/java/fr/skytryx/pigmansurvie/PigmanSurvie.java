@@ -37,6 +37,7 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BoatKill(), this);
         getServer().getPluginManager().registerEvents(new PhantomSize(), this);
         getServer().getPluginManager().registerEvents(new XPBottleListener(), this);
+        getServer().getPluginManager().registerEvents(new FastLeavesDecay(), this);
     }
 
     @Override
