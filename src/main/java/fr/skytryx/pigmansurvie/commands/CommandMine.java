@@ -16,7 +16,6 @@ import java.util.Objects;
 public class CommandMine implements CommandExecutor {
 
     @Override
-    //Verification de l'auteur de la commande
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
@@ -27,16 +26,13 @@ public class CommandMine implements CommandExecutor {
                     p.kickPlayer("Le Serveur Minage se reinitialise. \n" +
                             "Nous devons vous kick pour effectuer le reset!\n" +
                             "Vous pourrez vous reconnectez dans quelques secondes!");
-
-
                 });
-            }
-            else{
+                Bukkit.unloadWorld("mineworld", false);
+                try { FileUtils.deleteDirectory(new File("mineworld"));} catch (IOException e) {System.out.println("ca existe pas");}
+                new WorldCreator("mineworld").createWorld();
+            } else{
                 player.sendMessage("§c|Mineworld] §bVous n'avez pas la permission pour faire ca.");
             }
-            Bukkit.unloadWorld("mineworld", false);
-            try { FileUtils.deleteDirectory(new File("mineworld"));} catch (IOException e) {System.out.println("ca existe pas");}
-            new WorldCreator("mineworld").createWorld();
         }
 
         if (player.getWorld() == Bukkit.getWorld("mineworld")) {
