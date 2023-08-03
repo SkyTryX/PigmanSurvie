@@ -1,13 +1,12 @@
 package fr.skytryx.pigmansurvie.commands.staff;
 
+import fr.skytryx.pigmansurvie.Util;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +24,7 @@ public class CommandInvsee implements CommandExecutor {
             inv.setItem(i, playerinv.getItem(i));
         }
 
-        for(int i = 36; i < 45; i++) inv.setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+        Util.StainedGlass(36, 45, inv);
         inv.setItem(45, playerinv.getHelmet());
         inv.setItem(46, playerinv.getChestplate());
         inv.setItem(47, playerinv.getLeggings());

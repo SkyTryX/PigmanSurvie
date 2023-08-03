@@ -72,11 +72,8 @@ public class DeathChest implements Listener {
         @EventHandler
         public void ChestDisappear(InventoryCloseEvent event){
             if(event.getInventory().getType() != InventoryType.CHEST) return;
-            event.getPlayer().sendMessage("0");
             if(event.getView().getTitle().contains("§7Death Chest de")){
-                event.getPlayer().sendMessage("1");
                 if(event.getInventory().isEmpty()) {
-                    event.getPlayer().sendMessage("2");
                     Objects.requireNonNull(event.getInventory().getLocation()).getBlock().setType(Material.AIR);
                     Arrays.asList(new Location(event.getInventory().getLocation().getWorld(),
                             event.getInventory().getLocation().getBlockX()-1,
