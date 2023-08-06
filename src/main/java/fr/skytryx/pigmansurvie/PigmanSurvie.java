@@ -13,12 +13,16 @@ import org.bukkit.WorldCreator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class PigmanSurvie extends JavaPlugin {
 
+
+    Logger logger = Bukkit.getLogger();
     @Override
     public void onEnable() {
-        System.out.println("[PigmanSurvie] Plugin enabled!");
+        logger.log(Level.FINE, "[PigmanSurvie] Plugin enabled!");
         Objects.requireNonNull(getCommand("stafftp")).setExecutor(new CommandStafftp());
         Objects.requireNonNull(getCommand("invsee")).setExecutor(new CommandInvsee());
         Objects.requireNonNull(getCommand("mine")).setExecutor(new CommandMine());
@@ -43,6 +47,7 @@ public final class PigmanSurvie extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        System.out.println("[PigmanSurvie] Plugin disabled!");
+        logger.log(Level.FINE, "[PigmanSurvie] Plugin disabled!");
+        ;
     }
 }
