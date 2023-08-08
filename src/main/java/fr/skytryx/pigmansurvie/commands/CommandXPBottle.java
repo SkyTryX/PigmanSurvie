@@ -24,16 +24,16 @@ public class CommandXPBottle implements CommandExecutor {
         if (!(commandSender instanceof Player)) return false;
         Player player=(Player) commandSender;
         int nb_flask = floorDiv((Math.toIntExact(Math.round(player.getTotalExperience()*0.9))), 50);
+        AtomicInteger item_nb = new AtomicInteger();
         if(nb_flask != 0){
-            player.setTotalExperience(0);
-            player.setLevel(0);
-            player.setExp(0);
-            AtomicInteger item_nb = new AtomicInteger();
             Arrays.stream(player.getInventory().getStorageContents()).forEach(item ->{
                 if(item == null) item_nb.getAndIncrement();
-        });
+            });
             if(item_nb.get()*64 < nb_flask) player.sendMessage("§c[XPBottle] §cYou don't have enough free slots");
             else{
+                player.setTotalExperience(0);
+                player.setLevel(0);
+                player.setExp(0);
                 ItemStack xpcontainer=new ItemStack(Material.FLOWER_POT, nb_flask);
                 xpcontainer.addUnsafeEnchantment(Enchantment.LURE, 1);
                 ItemMeta xpcontainer_meta=xpcontainer.getItemMeta();
