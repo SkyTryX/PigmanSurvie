@@ -12,6 +12,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.Math;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.floorDiv;
 
@@ -26,14 +28,21 @@ public class CommandXPBottle implements CommandExecutor {
             player.setTotalExperience(0);
             player.setLevel(0);
             player.setExp(0);
-            ItemStack xpcontainer=new ItemStack(Material.FLOWER_POT, nb_flask);
-            xpcontainer.addUnsafeEnchantment(Enchantment.LURE, 1);
-            ItemMeta xpcontainer_meta=xpcontainer.getItemMeta();
-            xpcontainer_meta.setDisplayName("§aXP Flask");
-            xpcontainer_meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            xpcontainer.setItemMeta(xpcontainer_meta);
-            player.getInventory().addItem(xpcontainer);
-            player.sendMessage("§c[XPBottle] §bVous recevez " + nb_flask + "flask d'xp.");
+            AtomicInteger item_nb = new AtomicInteger();
+            Arrays.stream(player.getInventory().getStorageContents()).forEach(item ->{
+                if(item == null) item_nb.getAndIncrement();
+        });
+            if(item_nb.get()*64 < nb_flask) player.sendMessage("§c[XPBottle] §cYou don't have enough free slots");
+            else{
+                ItemStack xpcontainer=new ItemStack(Material.FLOWER_POT, nb_flask);
+                xpcontainer.addUnsafeEnchantment(Enchantment.LURE, 1);
+                ItemMeta xpcontainer_meta=xpcontainer.getItemMeta();
+                xpcontainer_meta.setDisplayName("§aXP Flask");
+                xpcontainer_meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                xpcontainer.setItemMeta(xpcontainer_meta);
+                player.getInventory().addItem(xpcontainer);
+                player.sendMessage("§c[XPBottle] §bVous recevez " + nb_flask + "flask d'xp.");
+            }
         } else {
             player.sendMessage("§c[XPBottle] §bTu n'as pas assez d'xp!");
         }
