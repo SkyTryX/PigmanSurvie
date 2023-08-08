@@ -23,7 +23,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 public class BeaconWaypoint implements Listener {
 
     public Map<String, String> queue_rename = new HashMap<>();

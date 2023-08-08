@@ -17,3 +17,6 @@ commands:
   xpbottle:
     description: Command to give you xp bottles you can consume
     usage: "§3Usage: /xpbottle"
+  skill:
+    description: Command to get a GUI showing skills
+    usage: "§3Usage: /skill"

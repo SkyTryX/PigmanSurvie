@@ -2,6 +2,7 @@ package fr.skytryx.pigmansurvie;
 
 import fr.skytryx.pigmansurvie.addons.*;
 import fr.skytryx.pigmansurvie.commands.CommandMine;
+import fr.skytryx.pigmansurvie.commands.CommandSkill;
 import fr.skytryx.pigmansurvie.commands.CommandXPBottle;
 import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
 import fr.skytryx.pigmansurvie.commands.staff.CommandStafftp;
@@ -22,11 +23,12 @@ public final class PigmanSurvie extends JavaPlugin {
     Logger logger = Bukkit.getLogger();
     @Override
     public void onEnable() {
-        logger.log(Level.FINE, "[PigmanSurvie] Plugin enabled!");
+        logger.log(Level.ALL, "[PigmanSurvie] Plugin enabled!");
         Objects.requireNonNull(getCommand("stafftp")).setExecutor(new CommandStafftp());
         Objects.requireNonNull(getCommand("invsee")).setExecutor(new CommandInvsee());
         Objects.requireNonNull(getCommand("mine")).setExecutor(new CommandMine());
         Objects.requireNonNull(getCommand("XPBottle")).setExecutor(new CommandXPBottle());
+        Objects.requireNonNull(getCommand("skill")).setExecutor(new CommandSkill());
 
         //Parametres du monde de minage
         if(Bukkit.getWorld("mineworld") == null){
@@ -47,7 +49,6 @@ public final class PigmanSurvie extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        logger.log(Level.FINE, "[PigmanSurvie] Plugin disabled!");
-        ;
+        logger.log(Level.ALL, "[PigmanSurvie] Plugin disabled!");
     }
 }
