@@ -189,6 +189,11 @@ public class BeaconWaypoint implements Listener {
                 beaconconfig.set(path, null);
             }
         });
+        try {
+            beaconconfig.save(beaconfile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
