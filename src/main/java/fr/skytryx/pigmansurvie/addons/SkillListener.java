@@ -3,6 +3,7 @@ package fr.skytryx.pigmansurvie.addons;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -10,7 +11,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.AnvilInventory;
+import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
@@ -19,14 +26,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SkillListener implements Listener {
 
-    public void GetXP(String skill, YamlConfiguration config, Player player, Float xp){
+    public void GetXP(String skill, YamlConfiguration config, Player player, Float xp, File file){
         config.set(player.getUniqueId() + "."+skill+".xp", config.getInt(player.getUniqueId() + "."+skill+".xp") + xp);
-        BossBar xp_bar = BossBar.bossBar(Component.text("Gained "+ xp + " XP"), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
+        BossBar xp_bar = BossBar.bossBar(Component.text("Gained "+ xp + " XP in "+skill), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
         player.showBossBar(xp_bar);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")), () -> player.hideBossBar(xp_bar), 40L);
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     @EventHandler
     public void ProfileCreation(PlayerJoinEvent event){
@@ -98,28 +111,56 @@ public class SkillListener implements Listener {
     }};
     @EventHandler
     public void XPGain(BlockBreakEvent event){
+        if(event.getPlayer().getGameMode() != GameMode.SURVIVAL) return;
         final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
         final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
         if(event.getBlock().getMetadata("PLACED").isEmpty()) {
             if (Miner.containsKey(event.getBlock().getType())) {
-                GetXP("mining", skillconfig, event.getPlayer(), Miner.get(event.getBlock().getType()));
+                GetXP("mining", skillconfig, event.getPlayer(), Miner.get(event.getBlock().getType()), skillfile);
             } else if (Farmer.containsKey(event.getBlock().getType())) {
-                GetXP("farming", skillconfig, event.getPlayer(), Farmer.get(event.getBlock().getType()));
+                GetXP("farming", skillconfig, event.getPlayer(), Farmer.get(event.getBlock().getType()), skillfile);
             } else if (WoodCutter.containsKey(event.getBlock().getType())) {
-                GetXP("woodcutting", skillconfig, event.getPlayer(), WoodCutter.get(event.getBlock().getType()));
+                GetXP("woodcutting", skillconfig, event.getPlayer(), WoodCutter.get(event.getBlock().getType()), skillfile);
             } else if (Excavater.containsKey(event.getBlock().getType())){
-                GetXP("excavating", skillconfig, event.getPlayer(), Excavater.get(event.getBlock().getType()));
+                GetXP("excavating", skillconfig, event.getPlayer(), Excavater.get(event.getBlock().getType()), skillfile);
             }
-        }
-        try {
-            skillconfig.save(skillfile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @EventHandler
     public void AntiDupe(BlockPlaceEvent event){
         event.getBlock().setMetadata("PLACED", new FixedMetadataValue(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("PigmanSurvie")), "PLACED"));
+    }
+
+    @EventHandler
+    public void onEnchant(EnchantItemEvent event){
+        final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
+        final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
+        AtomicInteger lvl_total = new AtomicInteger();
+        event.getEnchantsToAdd().forEach((ench, lvl) -> lvl_total.addAndGet(lvl));
+        GetXP("enchanting", skillconfig, event.getEnchanter(), (float) (event.getExpLevelCost()+(lvl_total.get()*10)), skillfile);
+    }
+
+    @EventHandler
+    public void onInvSkill(InventoryClickEvent event){
+        final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
+        final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
+        if(Objects.requireNonNull(event.getClickedInventory()).getType() == InventoryType.ANVIL){
+            event.getWhoClicked().sendMessage(event.getSlot() + " slot");
+            AnvilInventory inv = (AnvilInventory) event.getClickedInventory();
+            GetXP("forging", skillconfig, (Player)event.getWhoClicked(), (float) (inv.getRepairCost()*10), skillfile);
+        } else if (event.getClickedInventory().getType() == InventoryType.GRINDSTONE) {
+            GrindstoneInventory inv = (GrindstoneInventory) event.getClickedInventory();
+            AtomicInteger lvl_total = new AtomicInteger();
+            Arrays.stream(inv.getStorageContents()).filter(Objects::nonNull).forEach(item -> item.getEnchantments().forEach((ench, lvl) -> lvl_total.addAndGet(lvl)));
+            GetXP("forging", skillconfig, (Player)event.getWhoClicked(), (float) lvl_total.get()*10, skillfile);
+        } else if (event.getClickedInventory().getType() == InventoryType.BREWING) {
+            BrewerInventory inv = (BrewerInventory) event.getClickedInventory();
+            Arrays.stream(inv.getStorageContents()).forEach(potion ->{
+                if(Arrays.asList(Material.POTION, Material.LINGERING_POTION, Material.SPLASH_POTION).contains(Objects.requireNonNull(event.getCurrentItem()).getType())){
+                    event.getWhoClicked().sendMessage("idk");
+                }
+            });
+        }
     }
 }
