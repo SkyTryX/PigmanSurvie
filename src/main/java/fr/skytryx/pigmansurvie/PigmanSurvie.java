@@ -1,6 +1,7 @@
 package fr.skytryx.pigmansurvie;
 
 import fr.skytryx.pigmansurvie.addons.*;
+import fr.skytryx.pigmansurvie.commands.CommandLeaderboard;
 import fr.skytryx.pigmansurvie.commands.CommandMine;
 import fr.skytryx.pigmansurvie.commands.CommandSkill;
 import fr.skytryx.pigmansurvie.commands.CommandXPBottle;
@@ -29,6 +30,7 @@ public final class PigmanSurvie extends JavaPlugin {
         Objects.requireNonNull(getCommand("mine")).setExecutor(new CommandMine());
         Objects.requireNonNull(getCommand("XPBottle")).setExecutor(new CommandXPBottle());
         Objects.requireNonNull(getCommand("skill")).setExecutor(new CommandSkill());
+        Objects.requireNonNull(getCommand("leaderboard")).setExecutor(new CommandLeaderboard());
 
         //Parametres du monde de minage
         if(Bukkit.getWorld("mineworld") == null){

@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,10 +15,12 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.GrindstoneInventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
@@ -32,9 +35,15 @@ public class SkillListener implements Listener {
 
     public void GetXP(String skill, YamlConfiguration config, Player player, Float xp, File file){
         config.set(player.getUniqueId() + "."+skill+".xp", config.getInt(player.getUniqueId() + "."+skill+".xp") + xp);
-        BossBar xp_bar = BossBar.bossBar(Component.text("Gained "+ xp + " XP in "+skill), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
+        BossBar xp_bar = BossBar.bossBar(Component.text("Gained "+ xp + " ("+ config.getInt(player.getUniqueId() + "."+skill+".xp") +"/" + (Math.pow(config.getInt(player.getUniqueId() + "."+skill+".level"), 2)*15+100) + ") in "+skill), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
         player.showBossBar(xp_bar);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")), () -> player.hideBossBar(xp_bar), 40L);
+        if(config.getInt(player.getUniqueId() + "."+skill+".xp") > Math.pow(config.getInt(player.getUniqueId() + "."+skill+".level"), 2)*15+100 && config.getInt(player.getUniqueId() + "."+skill+".level") < 20){
+            config.set(player.getUniqueId() + "."+skill+".xp", config.getInt(player.getUniqueId() + "."+skill+".xp")-Math.pow(config.getInt(player.getUniqueId() + "."+skill+".level"), 2)*15+100);
+            config.set(player.getUniqueId() + "."+skill+".level", config.getInt(player.getUniqueId() + "."+skill+".level")+1);
+            player.sendMessage("§6§lLEVELED UP!\n" +
+                    "§bYou are now level §6" + config.getInt(player.getUniqueId() + "."+skill+".level") + " §bin §6" + skill);
+        }
         try {
             config.save(file);
         } catch (IOException e) {
@@ -143,6 +152,7 @@ public class SkillListener implements Listener {
 
     @EventHandler
     public void onInvSkill(InventoryClickEvent event){
+        if(event.getClickedInventory() == null) return;
         final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
         final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
         if(Objects.requireNonNull(event.getClickedInventory()).getType() == InventoryType.ANVIL){
@@ -162,5 +172,19 @@ public class SkillListener implements Listener {
                 }
             });
         }
+    }
+
+    @EventHandler
+    public void onFishing(PlayerFishEvent event){
+        final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
+        final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
+        if(event.getState() != PlayerFishEvent.State.CAUGHT_FISH || event.getCaught() == null) return;
+        Item itementity = (Item) event.getCaught();
+        ItemStack item = new ItemStack(itementity.getItemStack());
+        if(item.getType() == Material.ENCHANTED_BOOK){
+            GetXP("fishing", skillconfig, event.getPlayer(), 1000f, skillfile);
+        } else if(Arrays.asList(Material.NAUTILUS_SHELL, Material.NAME_TAG, Material.SADDLE).contains(item.getType())){
+            GetXP("fishing", skillconfig, event.getPlayer(), 300f, skillfile);
+        } else GetXP("fishing", skillconfig, event.getPlayer(), 50f, skillfile);
     }
 }

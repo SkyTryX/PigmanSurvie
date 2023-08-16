@@ -170,7 +170,7 @@ public class BeaconWaypoint implements Listener {
                     throw new RuntimeException(e);
                 }
                 event.getPlayer().sendMessage("§c[Waypoint] §bSet your waypoint name to §f"+msg);
-                queue_rename.remove(queue_rename.get(event.getPlayer().getUniqueId().toString()));
+                queue_rename.remove(event.getPlayer().getUniqueId().toString());
             }
         }
     }
