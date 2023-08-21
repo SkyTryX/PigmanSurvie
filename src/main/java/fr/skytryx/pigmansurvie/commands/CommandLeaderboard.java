@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class CommandLeaderboard implements CommandExecutor {
@@ -27,20 +28,24 @@ public class CommandLeaderboard implements CommandExecutor {
         HashMap<String, Integer>lb_list = new HashMap<>();
         Objects.requireNonNull(skillconfig.getConfigurationSection("")).getValues(false).forEach((path, pl) -> lb_list.put(path, 0));
         lb_list.forEach((ign, list_xp)-> Objects.requireNonNull(skillconfig.getConfigurationSection(ign)).getValues(false).forEach((path, skill) -> lb_list.put(ign, skillconfig.getInt(ign+"."+path+".level")+lb_list.get(ign))));
-        lb_list.entrySet()
+        Map<String, Integer> result = lb_list.entrySet()
                 .stream()
-                .sorted(Map.Entry.<String, Integer>comparingByKey())
+                .sorted(Map.Entry.comparingByValue())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, LinkedHashMap::new)).forEach((ign, list_xp)->{
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        AtomicInteger place = new AtomicInteger();
+        place.set(lb_list.size());
+        result.forEach((ign, list_xp)->{
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
-            skullMeta.setOwner(Objects.requireNonNull(Bukkit.getPlayer(UUID.fromString(ign))).getName());
-            skullMeta.setDisplayName("§b"+ Objects.requireNonNull(Bukkit.getPlayer(UUID.fromString(ign))).getName());
+            skullMeta.setOwner(Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(ign))).getName());
+            skullMeta.setDisplayName("§6"+ Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(ign))).getName() + " §b| §6#" + place.get());
             skullMeta.setLore(Collections.singletonList("§bLevel: §6" + list_xp));
             head.setItemMeta(skullMeta);
-            lb.addItem(head);
+            lb.setItem(place.get()-1, head);
+            place.addAndGet(-1);
         });
         player.openInventory(lb);
         return true;
