@@ -11,6 +11,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
@@ -19,11 +20,13 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.AnvilInventory;
-import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
@@ -38,20 +41,15 @@ public class SkillListener implements Listener {
 
     public void GetXP(String skill, YamlConfiguration config, Player player, Float xp, File file){
         config.set(player.getUniqueId() + "."+skill+".xp", config.getInt(player.getUniqueId() + "."+skill+".xp") + xp);
-        try {
-            config.save(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        BossBar xp_bar = BossBar.bossBar(Component.text("Gained "+ xp + "XP in "+skill+" ("+ config.getInt(player.getUniqueId() + "."+skill+".xp") +"/" + (Math.pow(config.getInt(player.getUniqueId() + "."+skill+".level"), 2)*15+100) + ")"), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
-        player.showBossBar(xp_bar);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")), () -> player.hideBossBar(xp_bar), 40L);
-        if(config.getInt(player.getUniqueId() + "."+skill+".xp") >= Math.pow(config.getInt(player.getUniqueId() + "."+skill+".level"), 2)*15+100 && config.getInt(player.getUniqueId() + "."+skill+".level") < 20){
-            config.set(player.getUniqueId() + "."+skill+".xp", config.getInt(player.getUniqueId() + "."+skill+".xp")-Math.pow(config.getInt(player.getUniqueId() + "."+skill+".level"), 2)*15+100);
-            config.set(player.getUniqueId() + "."+skill+".level", config.getInt(player.getUniqueId() + "."+skill+".level")+1);
+        if (config.getInt(player.getUniqueId() + "." + skill + ".xp") >= Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100 && config.getInt(player.getUniqueId() + "." + skill + ".level") < 20) {
+            config.set(player.getUniqueId() + "." + skill + ".xp", config.getInt(player.getUniqueId() + "." + skill + ".xp") - Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100);
+            config.set(player.getUniqueId() + "." + skill + ".level", config.getInt(player.getUniqueId() + "." + skill + ".level") + 1);
             player.sendMessage("§6§lLEVELED UP!\n" +
-                    "§bYou are now level §6" + config.getInt(player.getUniqueId() + "."+skill+".level") + " §bin §6" + skill);
+                    "§bYou are now level §6" + config.getInt(player.getUniqueId() + "." + skill + ".level") + " §bin §6" + skill);
         }
+        BossBar xp_bar = BossBar.bossBar(Component.text("Gained "+ xp + "XP in "+skill+" ("+ config.getInt(player.getUniqueId() + "."+skill+".xp") +"/" + (Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100) + ")"), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
+        player.showBossBar(xp_bar);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")), () -> player.hideBossBar(xp_bar), 100L);
         try {
             config.save(file);
         } catch (IOException e) {
@@ -151,6 +149,7 @@ public class SkillListener implements Listener {
         put(EntityType.ZOMBIFIED_PIGLIN, 10f);
         put(EntityType.HOGLIN, 25f);
         put(EntityType.ZOMBIE_HORSE, 100f);
+        put(EntityType.VILLAGER, 100f);
         put(EntityType.ZOMBIE_VILLAGER, 10f);
         put(EntityType.SKELETON_HORSE, 100f);
         put(EntityType.WITHER_SKELETON, 20f);
@@ -244,21 +243,17 @@ public class SkillListener implements Listener {
         final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
         final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
         if(Objects.requireNonNull(event.getClickedInventory()).getType() == InventoryType.ANVIL){
-            event.getWhoClicked().sendMessage(event.getSlot() + " slot");
-            AnvilInventory inv = (AnvilInventory) event.getClickedInventory();
-            GetXP("forging", skillconfig, (Player)event.getWhoClicked(), (float) (inv.getRepairCost()*10), skillfile);
+            if(event.getSlot() == 2 && Objects.requireNonNull(event.getCurrentItem()).getType() != Material.AIR){
+                AnvilInventory inv = (AnvilInventory) event.getClickedInventory();
+                GetXP("forging", skillconfig, (Player)event.getWhoClicked(), (float) (inv.getRepairCost()*10), skillfile);
+            }
         } else if (event.getClickedInventory().getType() == InventoryType.GRINDSTONE) {
             GrindstoneInventory inv = (GrindstoneInventory) event.getClickedInventory();
-            AtomicInteger lvl_total = new AtomicInteger();
-            Arrays.stream(inv.getStorageContents()).filter(Objects::nonNull).forEach(item -> item.getEnchantments().forEach((ench, lvl) -> lvl_total.addAndGet(lvl)));
-            GetXP("forging", skillconfig, (Player)event.getWhoClicked(), (float) lvl_total.get()*10, skillfile);
-        } else if (event.getClickedInventory().getType() == InventoryType.BREWING) {
-            BrewerInventory inv = (BrewerInventory) event.getClickedInventory();
-            Arrays.stream(inv.getStorageContents()).forEach(potion ->{
-                if(Arrays.asList(Material.POTION, Material.LINGERING_POTION, Material.SPLASH_POTION).contains(Objects.requireNonNull(event.getCurrentItem()).getType())){
-                    event.getWhoClicked().sendMessage("idk");
-                }
-            });
+            if(event.getSlot() == 2 && Objects.requireNonNull(event.getCurrentItem()).getType() != Material.AIR){
+                AtomicInteger lvl_total = new AtomicInteger();
+                Arrays.stream(inv.getStorageContents()).filter(Objects::nonNull).forEach(item -> item.getEnchantments().forEach((ench, lvl) -> lvl_total.addAndGet(lvl)));
+                GetXP("forging", skillconfig, (Player)event.getWhoClicked(), (float) lvl_total.get()*10, skillfile);
+            }
         }
     }
 
@@ -278,7 +273,6 @@ public class SkillListener implements Listener {
 
     @EventHandler
     public void EntityKill(EntityDeathEvent event){
-        if(!event.getEntity().isDead()) return;
         if(Objects.requireNonNull(event.getEntity().getKiller()).getType() == EntityType.PLAYER){
             if(EntityXP.containsKey(event.getEntity().getType())){
                 final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
@@ -289,6 +283,35 @@ public class SkillListener implements Listener {
                     GetXP("fighting", skillconfig, event.getEntity().getKiller(), EntityXP.get(event.getEntity().getType()), skillfile);
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void DrinkPotion(PlayerItemConsumeEvent event){
+        if(Material.POTION == event.getItem().getType()){
+            final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
+            final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
+            PotionMeta potionMeta = (PotionMeta) event.getItem().getItemMeta();
+            float xp = 25f;
+            if(potionMeta.getBasePotionData().isUpgraded()) xp+= 50;
+            if(potionMeta.getBasePotionData().isExtended()) xp+= 50;
+            GetXP("brewing", skillconfig, event.getPlayer(), xp, skillfile);
+        }
+    }
+
+    @EventHandler
+    public void PotionClick(PlayerInteractEvent event){
+        if(!Arrays.asList(Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK).contains(event.getAction())) return;
+        if(event.getItem() == null) return;
+        if(Arrays.asList(Material.LINGERING_POTION, Material.SPLASH_POTION).contains(Objects.requireNonNull(event.getItem()).getType())){
+            final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
+            final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
+            PotionMeta potionMeta = (PotionMeta) event.getItem().getItemMeta();
+            float xp = 75f;
+            if(potionMeta.getBasePotionData().isUpgraded()) xp+= 50;
+            if(potionMeta.getBasePotionData().isExtended()) xp+= 50;
+            if(event.getItem().getType() == Material.LINGERING_POTION) xp += 50;
+            GetXP("brewing", skillconfig, event.getPlayer(), xp, skillfile);
         }
     }
 }

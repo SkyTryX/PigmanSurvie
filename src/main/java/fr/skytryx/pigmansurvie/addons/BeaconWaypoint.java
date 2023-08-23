@@ -77,7 +77,6 @@ public class BeaconWaypoint implements Listener {
                 String uuid = UUID.randomUUID().toString();
                 if (block != null && block.getType() == Material.BEACON) {
                     if (((Beacon) block.getState()).getTier() != 0) {
-                        event.getWhoClicked().sendMessage(String.valueOf((((Beacon) block.getState()).getTier())));
                         Objects.requireNonNull(beaconconfig.getConfigurationSection("")).getValues(false).forEach((path, waypoint) -> {
                             if (Objects.requireNonNull(beaconconfig.get(path + ".x")).toString().equals(String.valueOf(block.getX())) &&
                                     Objects.requireNonNull(beaconconfig.get(path + ".y")).toString().equals(String.valueOf(block.getY())) &&
