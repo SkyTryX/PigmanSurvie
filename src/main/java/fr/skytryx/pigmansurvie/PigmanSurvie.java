@@ -1,20 +1,21 @@
 package fr.skytryx.pigmansurvie;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import fr.skytryx.pigmansurvie.addons.*;
-import fr.skytryx.pigmansurvie.commands.CommandLeaderboard;
-import fr.skytryx.pigmansurvie.commands.CommandMine;
-import fr.skytryx.pigmansurvie.commands.CommandSkill;
-import fr.skytryx.pigmansurvie.commands.CommandXPBottle;
+import fr.skytryx.pigmansurvie.commands.*;
 import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
 import fr.skytryx.pigmansurvie.commands.staff.CommandStafftp;
 import fr.skytryx.pigmansurvie.staff.InvseeCheck;
 import fr.skytryx.pigmansurvie.staff.XrayAlerts;
 import fr.skytryx.pigmansurvie.staff.VillagerAlerts;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.WorldCreator;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,11 +32,14 @@ public final class PigmanSurvie extends JavaPlugin {
         Objects.requireNonNull(getCommand("XPBottle")).setExecutor(new CommandXPBottle());
         Objects.requireNonNull(getCommand("skill")).setExecutor(new CommandSkill());
         Objects.requireNonNull(getCommand("leaderboard")).setExecutor(new CommandLeaderboard());
+        Objects.requireNonNull(getCommand("luckyblock")).setExecutor(new CommandLuckyBlock());
 
         //Parametres du monde de minage
         if(Bukkit.getWorld("mineworld") == null){
             new WorldCreator("mineworld").createWorld();
         }
+
+        Util.CreateRecipe(new ItemStack(Material.BEDROCK), Arrays.asList("CSC", "SCS", "CSC"), new HashMap<Character, Material>(){{put('S', Material.STONE); put('C', Material.COBBLESTONE);}}, "bedrock_lol");
 
         getServer().getPluginManager().registerEvents(new XrayAlerts(), this);
         getServer().getPluginManager().registerEvents(new VillagerAlerts(), this);

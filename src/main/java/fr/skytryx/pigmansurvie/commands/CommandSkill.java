@@ -25,26 +25,80 @@ public class CommandSkill implements CommandExecutor {
         Inventory skill_inv = Bukkit.createInventory(null, 36, "§7Skill Menu");
         Util.StainedGlass(0,9, skill_inv);
         skill_inv.setItem(11, Util.CreateItem(Material.DIAMOND_HOE, "§6Farming", Arrays.asList("§bLevel: §6"+ skillconfig.getString(player.getUniqueId()+".farming.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".farming.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".farming.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".farming.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".farming.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6More Health§b): ",
+                "§bActive Ability (§6Replenish§b): ")));
+
+
         skill_inv.setItem(12, Util.CreateItem(Material.DIAMOND_PICKAXE, "§6Mining", Arrays.asList("§bLevel: §6"+ skillconfig.getString(player.getUniqueId()+".mining.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".mining.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".mining.level"), 3)*15+100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".mining.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".mining.level"), 3)*15+100),
+                " ",
+                "§bPassive Ability (§6More Ores§b):",
+                "§bActive Ability (§6InstaMine§b): ")));
+
+
+
         skill_inv.setItem(13, Util.CreateItem(Material.DIAMOND_SHOVEL, "§6Excavating", Arrays.asList("§bLevel: §6"+ skillconfig.getString(player.getUniqueId()+".excavating.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".excavating.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".excavating.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".excavating.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".excavating.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6Lucky Drops§b):",
+                "§bActive Ability (§6Area Destroyer§b): ")));
+
+
+
         skill_inv.setItem(14, Util.CreateItem(Material.DIAMOND_AXE, "§6WoodCutting", Arrays.asList("§bLevel: §6"+skillconfig.getString(player.getUniqueId()+".woodcutting.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".woodcutting.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".woodcutting.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".woodcutting.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".woodcutting.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6Reduced Fall§b):",
+                "§bActive Ability (§6Timber§b): ")));
+
+
+
         skill_inv.setItem(15, Util.CreateItem(Material.FISHING_ROD, "§6Fishing", Arrays.asList("§bLevel: §6"+skillconfig.getString(player.getUniqueId()+".fishing.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".fishing.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".fishing.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".fishing.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".fishing.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6Swimming Speed§b):",
+                "§bActive Ability (§6Old Fishing§b): ")));
+
+
 
         skill_inv.setItem(20, Util.CreateItem(Material.DIAMOND_SWORD, "§6Fighting", Arrays.asList("§bLevel: §6"+skillconfig.getString(player.getUniqueId()+".fighting.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".fighting.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".fighting.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".fighting.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".fighting.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6Damage Buff§b):",
+                "§bActive Ability (§6Lightning Strike§b): ")));
+
+
+
         skill_inv.setItem(21, Util.CreateItem(Material.BOW, "§6Bow-ing", Arrays.asList("§bLevel: §6"+skillconfig.getString(player.getUniqueId()+".bow-ing.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".bow-ing.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".bow-ing.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".bow-ing.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".bow-ing.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability: (§6Arrow Damage§b):",
+                "§bActive Ability (§6Boom Arrow§b): ")));
+
+
+
         skill_inv.setItem(22, Util.CreateItem(Material.ENCHANTING_TABLE, "§6Enchanting", Arrays.asList("§bLevel: §6"+ skillconfig.getString(player.getUniqueId()+".enchanting.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".enchanting.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".enchanting.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".enchanting.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".enchanting.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6XP Gain buff§b):")));
+
+
+
         skill_inv.setItem(23, Util.CreateItem(Material.ANVIL, "§6Forging", Arrays.asList("§bLevel: §6"+ skillconfig.getString(player.getUniqueId()+".forging.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".forging.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".forging.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".forging.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".forging.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6Reduced Cost§b):")));
+
+
+
         skill_inv.setItem(24, Util.CreateItem(Material.BREWING_STAND, "§6Brewing", Arrays.asList("§bLevel: §6"+ skillconfig.getString(player.getUniqueId()+".brewing.level")+"§b/20",
-                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".brewing.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".brewing.level") * 15, 2) + 100))));
+                "§bXP: §6" + skillconfig.getString(player.getUniqueId()+".brewing.xp")+"§b/§6"+(Math.pow(skillconfig.getInt(player.getUniqueId() + ".brewing.level") * 15, 2) + 100),
+                " ",
+                "§bPassive Ability (§6Longer Potions§b):")));
+
+
         Util.StainedGlass(27, 36, skill_inv);
         player.openInventory(skill_inv);
         return true;

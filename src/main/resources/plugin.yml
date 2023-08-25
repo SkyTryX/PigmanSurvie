@@ -23,3 +23,6 @@ commands:
   leaderboard:
     description: Command to see the leaderboard
     usage: "§3Usage: /leaderboard"
+  luckyblock:
+    description: Command to manage the lucky block system
+    usage: "§3Usage: /luckyblock <give>"
