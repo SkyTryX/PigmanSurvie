@@ -1,19 +1,14 @@
 package fr.skytryx.pigmansurvie.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import fr.skytryx.pigmansurvie.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 
 public class CommandLuckyBlock implements CommandExecutor {
     public static Map<String, String> LB_Texture = new HashMap<String, String>(){{
@@ -32,12 +27,7 @@ public class CommandLuckyBlock implements CommandExecutor {
             if(strings[1].isEmpty()) return false;
             Player player = (Player) commandSender;
             if(LB_Texture.containsKey(strings[1])){
-                ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-                SkullMeta headmeta = (SkullMeta) head.getItemMeta();
-                headmeta.setOwningPlayer(Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(LB_Texture.get(strings[1])))));
-                headmeta.setDisplayName("§6"+strings[1]+" §blucky block");
-                head.setItemMeta(headmeta);
-                player.getInventory().addItem(head);
+                player.getInventory().addItem(Util.CreateHead(strings[1], LB_Texture.get(strings[1])));
                 player.sendMessage("§c[LuckyBlock] §bGave 1 §6" + strings[1] + " §blucky block!");
             } else return false;
         }

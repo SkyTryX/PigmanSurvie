@@ -1,7 +1,5 @@
 package fr.skytryx.pigmansurvie;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import fr.skytryx.pigmansurvie.addons.*;
 import fr.skytryx.pigmansurvie.commands.*;
 import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
@@ -20,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class PigmanSurvie extends JavaPlugin {
-
 
     Logger logger = Bukkit.getLogger();
     @Override
@@ -52,6 +49,7 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FastLeavesDecay(), this);
         getServer().getPluginManager().registerEvents(new BeaconWaypoint(), this);
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
+        getServer().getPluginManager().registerEvents(new LuckyBlockBreak(), this);
     }
 
     @Override

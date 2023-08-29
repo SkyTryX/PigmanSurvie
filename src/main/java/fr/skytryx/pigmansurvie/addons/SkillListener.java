@@ -273,6 +273,7 @@ public class SkillListener implements Listener {
 
     @EventHandler
     public void EntityKill(EntityDeathEvent event){
+        if(event.getEntity().getKiller() == null) return;
         if(Objects.requireNonNull(event.getEntity().getKiller()).getType() == EntityType.PLAYER){
             if(EntityXP.containsKey(event.getEntity().getType())){
                 final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");

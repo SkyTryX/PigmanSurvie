@@ -3,14 +3,12 @@ package fr.skytryx.pigmansurvie;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,5 +41,14 @@ public class Util {
         recipe.shape(shape.get(0), shape.get(1), shape.get(2));
         map.forEach(recipe::setIngredient);
         Bukkit.getServer().addRecipe(recipe);
+    }
+
+    public static ItemStack CreateHead(String name, String owner){
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta headmeta = (SkullMeta) head.getItemMeta();
+        headmeta.setOwningPlayer(Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(owner))));
+        headmeta.setDisplayName("§6"+name+" §blucky block");
+        head.setItemMeta(headmeta);
+        return head;
     }
 }
