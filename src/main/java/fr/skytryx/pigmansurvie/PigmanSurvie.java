@@ -23,6 +23,7 @@ public final class PigmanSurvie extends JavaPlugin {
     @Override
     public void onEnable() {
         logger.log(Level.ALL, "[PigmanSurvie] Plugin enabled!");
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Objects.requireNonNull(getCommand("stafftp")).setExecutor(new CommandStafftp());
         Objects.requireNonNull(getCommand("invsee")).setExecutor(new CommandInvsee());
         Objects.requireNonNull(getCommand("mine")).setExecutor(new CommandMine());
@@ -30,6 +31,7 @@ public final class PigmanSurvie extends JavaPlugin {
         Objects.requireNonNull(getCommand("skill")).setExecutor(new CommandSkill());
         Objects.requireNonNull(getCommand("leaderboard")).setExecutor(new CommandLeaderboard());
         Objects.requireNonNull(getCommand("luckyblock")).setExecutor(new CommandLuckyBlock());
+        Objects.requireNonNull(getCommand("lobby")).setExecutor(new CommandLobby());
 
         //Parametres du monde de minage
         if(Bukkit.getWorld("mineworld") == null){
@@ -54,6 +56,7 @@ public final class PigmanSurvie extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         logger.log(Level.ALL, "[PigmanSurvie] Plugin disabled!");
     }
 }
