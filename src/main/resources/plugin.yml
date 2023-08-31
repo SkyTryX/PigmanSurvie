@@ -3,14 +3,6 @@ version: '${project.version}'
 main: fr.skytryx.pigmansurvie.PigmanSurvie
 api-version: 1.20
 commands:
-  stafftp:
-    description: Command to stafftp (teleport whilst going into spectator mode)
-    permission: survie.staff.stafftp
-    usage: "§3Usage: /stafftp <player>"
-  invsee:
-    description: Command to see the inventory of a specific player
-    permission: survie.staff.invsee
-    usage: "§3Usage: /invsee <player>"
   mine:
     description: teleports you to the mine world
     usage: "§3Usage: /mine"
@@ -26,7 +18,3 @@ commands:
   luckyblock:
     description: Command to manage the lucky block system
     usage: "§3Usage: /luckyblock <give>"
-  lobby:
-    description: Teleport to lobby
-    usage: "§3/lobby"
-    aliases: [l, hub]

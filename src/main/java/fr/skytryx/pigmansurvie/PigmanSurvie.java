@@ -2,8 +2,6 @@ package fr.skytryx.pigmansurvie;
 
 import fr.skytryx.pigmansurvie.addons.*;
 import fr.skytryx.pigmansurvie.commands.*;
-import fr.skytryx.pigmansurvie.commands.staff.CommandInvsee;
-import fr.skytryx.pigmansurvie.commands.staff.CommandStafftp;
 import fr.skytryx.pigmansurvie.staff.InvseeCheck;
 import fr.skytryx.pigmansurvie.staff.XrayAlerts;
 import fr.skytryx.pigmansurvie.staff.VillagerAlerts;
@@ -24,14 +22,12 @@ public final class PigmanSurvie extends JavaPlugin {
     public void onEnable() {
         logger.log(Level.ALL, "[PigmanSurvie] Plugin enabled!");
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        Objects.requireNonNull(getCommand("stafftp")).setExecutor(new CommandStafftp());
-        Objects.requireNonNull(getCommand("invsee")).setExecutor(new CommandInvsee());
         Objects.requireNonNull(getCommand("mine")).setExecutor(new CommandMine());
         Objects.requireNonNull(getCommand("XPBottle")).setExecutor(new CommandXPBottle());
         Objects.requireNonNull(getCommand("skill")).setExecutor(new CommandSkill());
         Objects.requireNonNull(getCommand("leaderboard")).setExecutor(new CommandLeaderboard());
         Objects.requireNonNull(getCommand("luckyblock")).setExecutor(new CommandLuckyBlock());
-        Objects.requireNonNull(getCommand("lobby")).setExecutor(new CommandLobby());
+
 
         //Parametres du monde de minage
         if(Bukkit.getWorld("mineworld") == null){
