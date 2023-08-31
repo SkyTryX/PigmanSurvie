@@ -42,7 +42,7 @@ public class SkillListener implements Listener {
     public void GetXP(String skill, YamlConfiguration config, Player player, Float xp, File file){
         config.set(player.getUniqueId() + "."+skill+".xp", config.getInt(player.getUniqueId() + "."+skill+".xp") + xp);
         if (config.getInt(player.getUniqueId() + "." + skill + ".xp") >= Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100 && config.getInt(player.getUniqueId() + "." + skill + ".level") < 20) {
-            config.set(player.getUniqueId() + "." + skill + ".xp", config.getInt(player.getUniqueId() + "." + skill + ".xp") - Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100);
+            config.set(player.getUniqueId() + "." + skill + ".xp", 0);
             config.set(player.getUniqueId() + "." + skill + ".level", config.getInt(player.getUniqueId() + "." + skill + ".level") + 1);
             player.sendMessage("§6§lLEVELED UP!\n" +
                     "§bYou are now level §6" + config.getInt(player.getUniqueId() + "." + skill + ".level") + " §bin §6" + skill);
