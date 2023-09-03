@@ -24,7 +24,7 @@ public class CommandLeaderboard implements CommandExecutor {
         Player player = (Player) commandSender;
         final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
         final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
-        Inventory lb = Bukkit.createInventory(null, 54, "§8Leaderboard");
+        Inventory lb = Bukkit.createInventory(null, 54, "§8Classement");
         HashMap<String, Integer>lb_list = new HashMap<>();
         Objects.requireNonNull(skillconfig.getConfigurationSection("")).getValues(false).forEach((path, pl) -> lb_list.put(path, 0));
         lb_list.forEach((ign, list_xp)-> Objects.requireNonNull(skillconfig.getConfigurationSection(ign)).getValues(false).forEach((path, skill) -> lb_list.put(ign, skillconfig.getInt(ign+"."+path+".level")+lb_list.get(ign))));
@@ -42,7 +42,7 @@ public class CommandLeaderboard implements CommandExecutor {
             SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
             skullMeta.setOwner(Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(ign))).getName());
             skullMeta.setDisplayName("§6"+ Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(ign))).getName() + " §b| §6#" + place.get());
-            skullMeta.setLore(Collections.singletonList("§bLevel: §6" + list_xp));
+            skullMeta.setLore(Collections.singletonList("§bNiveau: §6" + list_xp));
             head.setItemMeta(skullMeta);
             lb.setItem(place.get()-1, head);
             place.addAndGet(-1);

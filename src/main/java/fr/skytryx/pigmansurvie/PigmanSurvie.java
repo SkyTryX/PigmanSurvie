@@ -12,15 +12,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class PigmanSurvie extends JavaPlugin {
 
-    Logger logger = Bukkit.getLogger();
     @Override
     public void onEnable() {
-        logger.log(Level.ALL, "[PigmanSurvie] Plugin enabled!");
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Objects.requireNonNull(getCommand("mine")).setExecutor(new CommandMine());
         Objects.requireNonNull(getCommand("XPBottle")).setExecutor(new CommandXPBottle());
@@ -28,12 +24,9 @@ public final class PigmanSurvie extends JavaPlugin {
         Objects.requireNonNull(getCommand("leaderboard")).setExecutor(new CommandLeaderboard());
         Objects.requireNonNull(getCommand("luckyblock")).setExecutor(new CommandLuckyBlock());
 
-
-        //Parametres du monde de minage
         if(Bukkit.getWorld("mineworld") == null){
             new WorldCreator("mineworld").createWorld();
         }
-
         Util.CreateRecipe(new ItemStack(Material.BEDROCK), Arrays.asList("CSC", "SCS", "CSC"), new HashMap<Character, Material>(){{put('S', Material.STONE); put('C', Material.COBBLESTONE);}}, "bedrock_lol");
 
         getServer().getPluginManager().registerEvents(new XrayAlerts(), this);
@@ -48,11 +41,13 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BeaconWaypoint(), this);
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
         getServer().getPluginManager().registerEvents(new LuckyBlockBreak(), this);
+
+        Bukkit.getLogger().info("Le plugin a été activé");
     }
 
     @Override
     public void onDisable() {
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
-        logger.log(Level.ALL, "[PigmanSurvie] Plugin disabled!");
+        Bukkit.getLogger().info("Le plugin a été desactivé");
     }
 }

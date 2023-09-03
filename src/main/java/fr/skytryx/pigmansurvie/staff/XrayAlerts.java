@@ -22,7 +22,7 @@ public class XrayAlerts implements Listener {
         else XrayList.put(event.getPlayer(), 1);
         if(XrayList.get(event.getPlayer()) > 8) {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                if(player.isOp()) player.sendMessage("§c[Xray] §6"+event.getPlayer().getName()+" §bhas mined §6"+XrayList.get(event.getPlayer())+" §bdiamonds!");
+                if(player.isOp()) player.sendMessage("§c[Xray] §6"+event.getPlayer().getName()+" §ba miné §6"+XrayList.get(event.getPlayer())+" §bdiamants!");
             });
         }
         Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("PigmanSurvie")), () -> {

@@ -14,7 +14,6 @@ public class PhantomSize implements Listener {
     public void onPhantomSpawn(EntitySpawnEvent event) {
         if (event.getEntityType() == EntityType.PHANTOM) {
             Phantom phantom = (Phantom) event.getEntity();
-            // Modifier la taille du Phantom
             phantom.setSize(new Random().nextInt(8));
         }
     }

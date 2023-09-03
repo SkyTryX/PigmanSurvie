@@ -28,7 +28,7 @@ public class CommandLuckyBlock implements CommandExecutor {
             Player player = (Player) commandSender;
             if(LB_Texture.containsKey(strings[1])){
                 player.getInventory().addItem(Util.CreateHead(strings[1], LB_Texture.get(strings[1])));
-                player.sendMessage("§c[LuckyBlock] §bGave 1 §6" + strings[1] + " §blucky block!");
+                player.sendMessage("§c[LuckyBlock] §bTu as recu 1 §6" + strings[1] + " §blucky block!");
             } else return false;
         }
         return true;

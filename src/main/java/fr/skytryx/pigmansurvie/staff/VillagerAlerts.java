@@ -15,7 +15,7 @@ public class VillagerAlerts implements Listener {
         if(event.getEntity().getType() != EntityType.VILLAGER) return;
         if(Objects.requireNonNull(event.getEntity().getKiller()).getType() != EntityType.PLAYER) return;
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if(player.isOp()) player.sendMessage("§c[Villager] §6"+event.getEntity().getKiller().getName()+" §bhas killed a §6villager");
+            if(player.isOp()) player.sendMessage("§c[Villager] §6"+event.getEntity().getKiller().getName()+" §ba tué un §6villageois");
         });
     }
 }

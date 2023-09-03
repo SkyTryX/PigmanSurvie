@@ -44,10 +44,10 @@ public class SkillListener implements Listener {
         if (config.getInt(player.getUniqueId() + "." + skill + ".xp") >= Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100 && config.getInt(player.getUniqueId() + "." + skill + ".level") < 20) {
             config.set(player.getUniqueId() + "." + skill + ".xp", 0);
             config.set(player.getUniqueId() + "." + skill + ".level", config.getInt(player.getUniqueId() + "." + skill + ".level") + 1);
-            player.sendMessage("§6§lLEVELED UP!\n" +
-                    "§bYou are now level §6" + config.getInt(player.getUniqueId() + "." + skill + ".level") + " §bin §6" + skill);
+            player.sendMessage("§6§lNIVEAU SUPERIEUR!\n" +
+                    "§bTu es maintenant niveau §6" + config.getInt(player.getUniqueId() + "." + skill + ".level") + " §bin §6" + skill);
         }
-        BossBar xp_bar = BossBar.bossBar(Component.text("Gained "+ xp + "XP in "+skill+" ("+ config.getInt(player.getUniqueId() + "."+skill+".xp") +"/" + (Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100) + ")"), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
+        BossBar xp_bar = BossBar.bossBar(Component.text("Gain de "+ xp + "XP en "+skill+" ("+ config.getInt(player.getUniqueId() + "."+skill+".xp") +"/" + (Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100) + ")"), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
         player.showBossBar(xp_bar);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")), () -> player.hideBossBar(xp_bar), 100L);
         try {

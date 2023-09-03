@@ -1,5 +1,6 @@
 package fr.skytryx.pigmansurvie.commands;
 
+import fr.skytryx.pigmansurvie.Util;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,7 +30,7 @@ public class CommandXPBottle implements CommandExecutor {
             Arrays.stream(player.getInventory().getStorageContents()).forEach(item ->{
                 if(item == null) item_nb.getAndIncrement();
             });
-            if(item_nb.get()*64 < nb_flask) player.sendMessage("§c[XPBottle] §cYou don't have enough free slots");
+            if(item_nb.get()*64 < nb_flask) player.sendMessage("§c[XPBottle] §cTu n'as pas assez de place dans ton inventaire");
             else{
                 player.setTotalExperience(0);
                 player.setLevel(0);
