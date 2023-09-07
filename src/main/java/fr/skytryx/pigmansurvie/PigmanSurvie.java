@@ -27,7 +27,13 @@ public final class PigmanSurvie extends JavaPlugin {
         if(Bukkit.getWorld("mineworld") == null){
             new WorldCreator("mineworld").createWorld();
         }
-        Util.CreateRecipe(new ItemStack(Material.BEDROCK), Arrays.asList("CSC", "SCS", "CSC"), new HashMap<Character, Material>(){{put('S', Material.STONE); put('C', Material.COBBLESTONE);}}, "bedrock_lol");
+        Util.CreateRecipe(Util.CreateHead("Coal", CommandLuckyBlock.LB_Texture.get("Coal")), Arrays.asList(" C ", "C C", " C "), new HashMap<Character, Material>(){{put('C', Material.COAL_BLOCK);}}, "Coal_LB");
+        Util.CreateRecipe(Util.CreateHead("Iron", CommandLuckyBlock.LB_Texture.get("Iron")), Arrays.asList(" C ", "C C", " C "), new HashMap<Character, Material>(){{put('C', Material.IRON_BLOCK);}}, "Iron_LB");
+        Util.CreateRecipe(Util.CreateHead("Gold", CommandLuckyBlock.LB_Texture.get("Gold")), Arrays.asList(" C ", "C C", " C "), new HashMap<Character, Material>(){{put('C', Material.GOLD_BLOCK);}}, "Gold_LB");
+        Util.CreateRecipe(Util.CreateHead("Diamond", CommandLuckyBlock.LB_Texture.get("Diamond")), Arrays.asList("   ", "C C", "   "), new HashMap<Character, Material>(){{put('C', Material.DIAMOND_BLOCK);}}, "Diamond_LB");
+        Util.CreateRecipe(Util.CreateHead("Netherite", CommandLuckyBlock.LB_Texture.get("Netherite")), Arrays.asList("C C", "C C", "C C"), new HashMap<Character, Material>(){{put('C', Material.NETHERITE_INGOT);}}, "Netherite_LB");
+        Util.CreateRecipe(Util.CreateHead("Redstone", CommandLuckyBlock.LB_Texture.get("Redstone")), Arrays.asList("SSS", "SCS", "SSS"), new HashMap<Character, Material>(){{put('C', Material.REDSTONE_BLOCK); put('S', Material.SCULK);}}, "Redstone_LB");
+        Util.CreateRecipe(Util.CreateHead("Emerald", CommandLuckyBlock.LB_Texture.get("Emerald")), Arrays.asList("LBL", "EDE", "LBL"), new HashMap<Character, Material>(){{put('L', Material.LAPIS_LAZULI); put('B', Material.LAPIS_BLOCK); put('E', Material.EMERALD_BLOCK); put('D', Material.DIAMOND);}}, "Emerald_LB");
 
         getServer().getPluginManager().registerEvents(new XrayAlerts(), this);
         getServer().getPluginManager().registerEvents(new VillagerAlerts(), this);
@@ -42,12 +48,12 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
         getServer().getPluginManager().registerEvents(new LuckyBlockBreak(), this);
 
-        Bukkit.getLogger().info("Le plugin a été activé");
+        Bukkit.getLogger().info("[PigmanSurvie] Le plugin a été activé");
     }
 
     @Override
     public void onDisable() {
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
-        Bukkit.getLogger().info("Le plugin a été desactivé");
+        Bukkit.getLogger().info("[PigmanSurvie] Le plugin a été desactivé");
     }
 }

@@ -225,7 +225,13 @@ public class SkillListener implements Listener {
 
     @EventHandler
     public void AntiDupe(BlockPlaceEvent event){
+        if(event.getPlayer().getGameMode() != GameMode.SURVIVAL) return;
+        final File skillfile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PigmanSurvie")).getDataFolder(), "skills.yml");
+        final YamlConfiguration skillconfig = YamlConfiguration.loadConfiguration(skillfile);
+        if (Farmer.containsKey(event.getBlock().getType())) {
+            GetXP("farming", skillconfig, event.getPlayer(), Farmer.get(event.getBlock().getType()), skillfile);
         event.getBlock().setMetadata("PLACED", new FixedMetadataValue(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("PigmanSurvie")), "PLACED"));
+        }
     }
 
     @EventHandler
