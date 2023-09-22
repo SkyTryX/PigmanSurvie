@@ -3,10 +3,7 @@ package fr.skytryx.pigmansurvie.addons;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -16,6 +13,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.bukkit.World;
 
 
 public class LuckyBlockBreak implements Listener {
@@ -97,11 +95,36 @@ public class LuckyBlockBreak implements Listener {
                 case 5:
                 player.kickPlayer("Vous allez etre banni");
                 case 6:
-
+                Location locationmob2 = player.getLocation().add(2,0,2);
+                    for (int i = 0; i < 4; i++) {
+                        spawnMobnearPlayer(player, locationmob2, EntityType.IRON_GOLEM);
+                    }
                 case 7:
+                    Location playerLocation2 = event.getPlayer().getLocation();
+                    int ironToGive = 32;
+
+                    for (int i = 0; i < ironToGive; i++) {
+                        spawnIron(playerLocation2);
+                    }
                 case 8:
+                    Location playerLoc2 = player.getLocation().add(0,0,100);
+                    Location playertp = playerLoc2.add(0,0,3);
+                    generateIronStructure(playerLoc2);
+                    player.teleport(playertp);
+                    player.sendMessage("J'espere que tu a un seau d'eau ;)");
                 case 9:
+                    Location playerLocation4 = player.getLocation();
+                    World world = player.getWorld();
+                    world.strikeLightning(playerLocation4);
                 case 10:
+                    player.sendMessage("Wait a second");
+                    new BukkitRunnable() {
+                        @Override
+                        public void run(){
+                            player.sendMessage("Still waiting ?");
+                        }
+                    }.runTaskLater((Plugin) this, 60L);
+
             }
         } else if (event.getItemInHand().getItemMeta().getDisplayName().contains("Gold")) {
             switch ((int) (Math.random() * (10 - 1 + 1) + 1)) {
@@ -181,6 +204,10 @@ public class LuckyBlockBreak implements Listener {
     public void spawnDiamond(Location location) {
         Item diamond = location.getWorld().dropItem(location, new ItemStack(Material.DIAMOND));
         diamond.setVelocity(new Vector(Math.random() - 0.5, 1, Math.random() - 0.5));
+    }
+    public void spawnIron(Location location) {
+        Item iron = location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT));
+        iron.setVelocity(new Vector(Math.random() - 0.5, 1, Math.random() - 0.5));
     }
    // cube metal creux
     public void generateIronStructure(Location location) {
