@@ -46,6 +46,9 @@ public class SkillListener implements Listener {
             config.set(player.getUniqueId() + "." + skill + ".level", config.getInt(player.getUniqueId() + "." + skill + ".level") + 1);
             player.sendMessage("§6§lNIVEAU SUPERIEUR!\n" +
                     "§bTu es maintenant niveau §6" + config.getInt(player.getUniqueId() + "." + skill + ".level") + " §bin §6" + skill);
+            if(Arrays.asList(10, 20).contains(config.getInt(player.getUniqueId() + "." + skill + ".level"))){
+                config.set(player.getUniqueId() + "." + skill + ".active", config.getInt(player.getUniqueId() + "." + skill + ".level")/10);
+            }
         }
         BossBar xp_bar = BossBar.bossBar(Component.text("Gain de "+ xp + "XP en "+skill+" ("+ config.getInt(player.getUniqueId() + "."+skill+".xp") +"/" + (Math.pow(config.getInt(player.getUniqueId() + "." + skill + ".level") * 15, 2) + 100) + ")"), 0f, BossBar.Color.GREEN, BossBar.Overlay.PROGRESS);
         player.showBossBar(xp_bar);
@@ -64,6 +67,8 @@ public class SkillListener implements Listener {
             Arrays.asList("farming", "mining", "excavating", "woodcutting", "fishing", "fighting", "bow-ing", "enchanting", "forging", "brewing").forEach(sk ->{
                 skillconfig.set(event.getPlayer().getUniqueId()+"."+sk+".xp", 0);
                 skillconfig.set(event.getPlayer().getUniqueId()+"."+sk+".level", 0);
+                skillconfig.set(event.getPlayer().getUniqueId()+"."+sk+".passive", 0);
+                skillconfig.set(event.getPlayer().getUniqueId()+"."+sk+".active", 0);
             });
             try {
                 skillconfig.save(skillfile);
