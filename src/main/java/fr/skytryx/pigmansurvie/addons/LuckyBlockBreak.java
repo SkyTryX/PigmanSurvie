@@ -15,13 +15,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.bukkit.World;
 
-
 public class LuckyBlockBreak implements Listener {
 
     @EventHandler
     public void LBPlace(BlockPlaceEvent event) {
-        if (event.getBlock().getType() != Material.PLAYER_HEAD && event.getItemInHand().getItemMeta().getDisplayName().startsWith("§"))
-            return;
+        if (event.getBlock().getType() == Material.PLAYER_HEAD && event.getItemInHand().getItemMeta().getDisplayName().startsWith("§")){
         Player player = event.getPlayer();
         if (event.getItemInHand().getItemMeta().getDisplayName().contains("Coal")) {
             switch ((int) (Math.random() * (10 - 1 + 1) + 1)) {
@@ -195,6 +193,7 @@ public class LuckyBlockBreak implements Listener {
         event.setCancelled(true);
         event.getItemInHand().setAmount(event.getItemInHand().getAmount() - 1);
     }
+}
 //Spawn d'un mob
     private void spawnMobnearPlayer(Player player, Location locationmob, EntityType entityType) {
         locationmob.getWorld().spawnEntity(locationmob, entityType);
