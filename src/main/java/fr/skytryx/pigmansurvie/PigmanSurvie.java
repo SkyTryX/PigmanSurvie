@@ -45,6 +45,7 @@ public final class PigmanSurvie extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BeaconWaypoint(), this);
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
         getServer().getPluginManager().registerEvents(new LuckyBlockBreak(), this);
+        getServer().getPluginManager().registerEvents(new BetaMSGs(), this);
 
         Bukkit.getLogger().info("[PigmanSurvie] Le plugin a été activé");
     }
