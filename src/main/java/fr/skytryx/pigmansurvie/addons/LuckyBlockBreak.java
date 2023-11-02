@@ -21,6 +21,7 @@ public class LuckyBlockBreak implements Listener {
     public void LBPlace(BlockPlaceEvent event) {
         if (event.getBlock().getType() == Material.PLAYER_HEAD && event.getItemInHand().getItemMeta().getDisplayName().startsWith("§")){
         Player player = event.getPlayer();
+        Location playerLocation = player.getLocation();
         if (event.getItemInHand().getItemMeta().getDisplayName().contains("Coal")) {
             switch ((int) (Math.random() * (10 - 1 + 1) + 1)) {
                 case 1:
@@ -31,7 +32,7 @@ public class LuckyBlockBreak implements Listener {
                     break;
                     // dorian la t un batard :)
                 case 3:
-                    Location playerLocation = event.getPlayer().getLocation();
+
                     int diamondsToGive = 3;
 
                     for (int i = 0; i < diamondsToGive; i++) {
@@ -68,7 +69,6 @@ public class LuckyBlockBreak implements Listener {
         } else if (event.getItemInHand().getItemMeta().getDisplayName().contains("Iron")) {
             switch ((int) (Math.random() * (10 - 1 + 1) + 1)) {
                 case 1:
-                    Location playerLocation = event.getPlayer().getLocation();
                     generateIronStructure(playerLocation);
                     break;
                 case 2:
@@ -78,7 +78,7 @@ public class LuckyBlockBreak implements Listener {
                     event.getPlayer().setHealth(1);
                     event.getPlayer().setFoodLevel(0);
                     event.getPlayer().setSaturation(0);
-                    Location locationmob = player.getLocation().add(2,0,2);
+                    Location locationmob = playerLocation.add(2,0,2);
                     spawnMobnearPlayer(player, locationmob, EntityType.ENDERMITE);
                     break;
                 case 4:
@@ -93,19 +93,18 @@ public class LuckyBlockBreak implements Listener {
                 case 5:
                 player.kickPlayer("Vous allez etre banni");
                 case 6:
-                Location locationmob2 = player.getLocation().add(2,0,2);
+                Location locationmob2 = playerLocation.add(2,0,2);
                     for (int i = 0; i < 4; i++) {
                         spawnMobnearPlayer(player, locationmob2, EntityType.IRON_GOLEM);
                     }
                 case 7:
-                    Location playerLocation2 = event.getPlayer().getLocation();
                     int ironToGive = 32;
 
                     for (int i = 0; i < ironToGive; i++) {
-                        spawnIron(playerLocation2);
+                        spawnIron(playerLocation);
                     }
                 case 8:
-                    Location playerLoc2 = player.getLocation().add(0,0,100);
+                    Location playerLoc2 = playerLocation.add(0,0,100);
                     Location playertp = playerLoc2.add(0,0,3);
                     generateIronStructure(playerLoc2);
                     player.teleport(playertp);
@@ -127,8 +126,12 @@ public class LuckyBlockBreak implements Listener {
         } else if (event.getItemInHand().getItemMeta().getDisplayName().contains("Gold")) {
             switch ((int) (Math.random() * (10 - 1 + 1) + 1)) {
                 case 1:
+                    Location spawnLocation = playerLocation.add(3, 1,0);
+                    generateGoldStructure(spawnLocation);
                 case 2:
+                    spawnGold(playerLocation);
                 case 3:
+                    player.sendMessage("Si tu tue SkyTryX, il devra te donner un stuff full or");
                 case 4:
                 case 5:
                 case 6:
@@ -208,6 +211,10 @@ public class LuckyBlockBreak implements Listener {
         Item iron = location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT));
         iron.setVelocity(new Vector(Math.random() - 0.5, 1, Math.random() - 0.5));
     }
+    public void spawnGold(Location location) {
+        Item gold = location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT));
+        gold.setVelocity(new Vector(Math.random() - 0.5, 1, Math.random() - 0.5));
+    }
    // cube metal creux
     public void generateIronStructure(Location location) {
         int size = 3; // Taille du cube
@@ -224,6 +231,26 @@ public class LuckyBlockBreak implements Listener {
                         }
 
                         block.setType(Material.IRON_BLOCK);
+                    }
+                }
+            }
+        }
+    }
+    public void generateGoldStructure(Location location) {
+        int size = 3; // Taille du cube
+
+        for (int x = -size; x <= size; x++) {
+            for (int y = -size; y <= size; y++) {
+                for (int z = -size; z <= size; z++) {
+                    if (Math.abs(x) == size || Math.abs(y) == size || Math.abs(z) == size) {
+                        Location blockLocation = location.clone().add(x, y, z);
+                        Block block = blockLocation.getBlock();
+
+                        if (block.getType() != Material.AIR) {
+                            continue; // Ne remplacez pas les blocs existants
+                        }
+
+                        block.setType(Material.GOLD_BLOCK);
                     }
                 }
             }
